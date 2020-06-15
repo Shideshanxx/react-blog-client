@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import { Row, Col, Breadcrumb,Affix } from 'antd';
 import {CalendarOutlined,FolderOutlined,FireOutlined } from '@ant-design/icons';
-import Header from '../components/Header';
-import Author from '../components/Author';
-import Advert from '../components/Advert';
-import Footer from '../components/Footer';
-import '../public/style/pages/detailed.css';
+import Header from '@/components/Header';
+import Author from '@/components/Author';
+import Advert from '@/components/Advert';
+import Footer from '@/components/Footer';
+import './style.css';
 
 import ReactMarkdown from 'react-markdown';
 // 引入markdown-navbar及其样式

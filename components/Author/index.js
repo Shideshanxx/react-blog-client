@@ -1,6 +1,6 @@
 import {Avatar, Divider} from 'antd';
 import {GithubOutlined,QqOutlined,WechatOutlined} from '@ant-design/icons';
-import '../public/style/components/author.css';
+import './style.css';
 
 const Author = function() {
     return (

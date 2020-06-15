@@ -1,4 +1,4 @@
-import '../public/style/components/Advert.css';
+import './style.css';
 
 const Advert = ()=> {
     return (

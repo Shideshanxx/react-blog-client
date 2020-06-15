@@ -1,6 +1,7 @@
-import '../public/style/components/header.css';
 import {Row,Col,Menu} from 'antd';
 import {HomeOutlined,YoutubeOutlined,SmileOutlined} from '@ant-design/icons';
+
+import './style.css';
 
 function Header() {
     return (
