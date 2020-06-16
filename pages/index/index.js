@@ -11,8 +11,8 @@ import ArticeList from '@/components/ArticleList';
 import serviceApi from '@/config/service';
 import request from '@/public/utils/request';
 
-function Home(props) {
-  const [articleList, setArticleList] = useState(props.list)
+const Home = (props) => {
+  const [articleListInfo, setArticleListInfo] = useState(props.list)
 
   return (
     <div className="container">
@@ -25,7 +25,7 @@ function Home(props) {
             <ArticeList
               typeTag
               loading={props.listLoading}
-              data={articleList}
+              data={articleListInfo}
             />
         </Col>
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4} xxl={3}>
@@ -44,14 +44,11 @@ Home.getInitialProps = async () => {
       method: 'get',
       params: { id: 0, page: 1, limit: 5 }
     }).then((res) => {
-      console.log('res---',res)
       resolve(res ? res.data : [])
     })
   })
 
   let list = await promise1;
-
-  console.log('list',list)
   return {list};
 }
 

@@ -1,10 +1,12 @@
+import PropTypes from 'prop-types'
 import { List } from 'antd';
+import Link from 'next/link';
 import {FolderOutlined, CalendarOutlined, FireOutlined} from '@ant-design/icons';
 
 import moment from 'moment';
 moment.locale('zh-cn');
 
-function ArticleList(props) {
+const ArticleList = (props) => {
     return (
         <div>
             <List
@@ -12,8 +14,10 @@ function ArticleList(props) {
               itemLayout="vertical"
               dataSource={props.data}
               renderItem={item=>(
-                <List.Item>
-                  <div className="list-title">{item.title}</div>
+                <List.Item key={item.id}>
+                  <div className="list-title">
+                    <Link href={{pathname: '/detail',query:{id:item.id}}}><a>{item.title}</a></Link>
+                  </div>
                   <div className="list-icon">
                     <span><CalendarOutlined/> {moment(item.createTime).format('YYYY-MM-DD HH:mm')}</span>
                     <span><FolderOutlined/> {item.typeName} </span>
@@ -25,6 +29,10 @@ function ArticleList(props) {
             />
         </div>
     )
+}
+
+ArticleList.propTypes = {
+
 }
 
 export default ArticleList;
