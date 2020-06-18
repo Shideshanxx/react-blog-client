@@ -1,11 +1,13 @@
 import App from 'next/app';
 import 'antd/dist/antd.css';
-import '@/public/style/global.css';
+import '@/public/style/global.less';
 import { Provider } from 'react-redux';
 import store from '@/store'
 import NProgress from 'nprogress'
 import Router from 'next/router'
 import 'nprogress/nprogress.css'
+
+import Layout from '@/components/Layout';
 
 //声明一个MyApp组件，然后这个组件用Provider进行包裹 react-redux。
 
@@ -24,7 +26,9 @@ export default class MyApp extends App {
         const { Component, pageProps } = this.props
         return (
             <Provider store={store}>
-                <Component {...pageProps} />
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
             </Provider>
         )
     }

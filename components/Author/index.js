@@ -1,5 +1,4 @@
 import {Avatar, Divider} from 'antd';
-import {GithubOutlined,QqOutlined,WechatOutlined} from '@ant-design/icons';
 import './style.css';
 
 const Author = function() {
@@ -10,10 +9,10 @@ const Author = function() {
             </div>
             <div className="author-introduction">
                 IT界的吴彦祖，专注于WEB和移动端前端开发。
-                <Divider>社交帐号</Divider>
-                <Avatar size={28} icon={<GithubOutlined />} className="account"  />
-                <Avatar size={28} icon={<QqOutlined />}  className="account" />
-                <Avatar size={28} icon={<WechatOutlined />}  className="account"  />
+                <Divider>联系站主</Divider>
+                <Avatar size={28} icon="github" className="account"  />
+                <Avatar size={28} icon="qq"  className="account" />
+                <Avatar size={28} icon="wechat"  className="account"  />
             </div>
         </div>
     )

@@ -1,58 +1,208 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head';
-import {Row,Col,List,Breadcrumb} from 'antd';
-import {FolderOutlined, CalendarOutlined, FireOutlined} from '@ant-design/icons';
-import Header from '@/components/Header';
-import Author from '@/components/Author';
-import Advert from '@/components/Advert';
-import Footer from '@/components/Footer';
-import './style.css';
+import { Row, Col, Icon, Card } from 'antd'
+import classnames from 'classnames'
+import request from '@/public/utils/request'
+import serviceApi from '@/config/service'
+import dynamic from 'next/dynamic'
 
-export default function MyList() {
-  const [myList,setMyList] = useState([
-    {title:'50元加入小密圈 胖哥带你学一年',context:'50元跟着胖哥学一年，掌握程序人的学习方法。 也许你刚步入IT行业，也许你遇到了成长瓶颈，也许你不知道该学习什么知识，也许你不会融入团队，也许...........有些时候你陷入彷徨。 你需要一个强力的队友，你需要一个资深老手，你需要一个随时可以帮助你的人，你更需要一个陪你加速前行的。 我在这个行业走了12年，从后端、前端到移动端都从事过，从中走了很多坑，但我有一套适合程序员的学习方法。 如果你愿意，我将带着你在这个程序行业加速奔跑。分享我学习的方法，所学的内容和一切我的资料。 你遇到的职业问题，我也会第一时间给你解答。我需要先感谢一直帮助我的小伙伴，这个博客能产出300多集免费视频，其中有他们的鼎力支持，如果没有他们的支持和鼓励，我可能早都放弃了。 原来我博客只是录制免费视频，然后求30元的打赏。 每次打赏我都会觉得内疚，因为我并没有给你特殊的照顾，也没能从实质上帮助过你。 直到朋友给我介绍了知识星球，它可以专享加入，可以分享知识，可以解答问题，所以我如获珍宝，决定把打赏环节改为知识服务。我定价50元每年，为什么是50元每年？因为这是知识星球允许的最低收费了。'},
-    {title:'React实战视频教程-技术胖Blog开发(更新04集)',context:'50元跟着胖哥学一年，掌握程序人的学习方法。 也许你刚步入IT行业，也许你遇到了成长瓶颈，也许你不知道该学习什么知识，也许你不会融入团队，也许...........有些时候你陷入彷徨。 你需要一个强力的队友，你需要一个资深老手，你需要一个随时可以帮助你的人，你更需要一个陪你加速前行的。 我在这个行业走了12年，从后端、前端到移动端都从事过，从中走了很多坑，但我有一套适合程序员的学习方法。 如果你愿意，我将带着你在这个程序行业加速奔跑。分享我学习的方法，所学的内容和一切我的资料。 你遇到的职业问题，我也会第一时间给你解答。我需要先感谢一直帮助我的小伙伴，这个博客能产出300多集免费视频，其中有他们的鼎力支持，如果没有他们的支持和鼓励，我可能早都放弃了。 原来我博客只是录制免费视频，然后求30元的打赏。 每次打赏我都会觉得内疚，因为我并没有给你特殊的照顾，也没能从实质上帮助过你。 直到朋友给我介绍了知识星球，它可以专享加入，可以分享知识，可以解答问题，所以我如获珍宝，决定把打赏环节改为知识服务。我定价50元每年，为什么是50元每年？因为这是知识星球允许的最低收费了。'},
-    {title:'React服务端渲染框架Next.js入门(共12集)',context:'50元跟着胖哥学一年，掌握程序人的学习方法。 也许你刚步入IT行业，也许你遇到了成长瓶颈，也许你不知道该学习什么知识，也许你不会融入团队，也许...........有些时候你陷入彷徨。 你需要一个强力的队友，你需要一个资深老手，你需要一个随时可以帮助你的人，你更需要一个陪你加速前行的。 我在这个行业走了12年，从后端、前端到移动端都从事过，从中走了很多坑，但我有一套适合程序员的学习方法。 如果你愿意，我将带着你在这个程序行业加速奔跑。分享我学习的方法，所学的内容和一切我的资料。 你遇到的职业问题，我也会第一时间给你解答。我需要先感谢一直帮助我的小伙伴，这个博客能产出300多集免费视频，其中有他们的鼎力支持，如果没有他们的支持和鼓励，我可能早都放弃了。 原来我博客只是录制免费视频，然后求30元的打赏。 每次打赏我都会觉得内疚，因为我并没有给你特殊的照顾，也没能从实质上帮助过你。 直到朋友给我介绍了知识星球，它可以专享加入，可以分享知识，可以解答问题，所以我如获珍宝，决定把打赏环节改为知识服务。我定价50元每年，为什么是50元每年？因为这是知识星球允许的最低收费了。'},
-    {title:'React Hooks 免费视频教程(共11集)',context:'50元跟着胖哥学一年，掌握程序人的学习方法。 也许你刚步入IT行业，也许你遇到了成长瓶颈，也许你不知道该学习什么知识，也许你不会融入团队，也许...........有些时候你陷入彷徨。 你需要一个强力的队友，你需要一个资深老手，你需要一个随时可以帮助你的人，你更需要一个陪你加速前行的。 我在这个行业走了12年，从后端、前端到移动端都从事过，从中走了很多坑，但我有一套适合程序员的学习方法。 如果你愿意，我将带着你在这个程序行业加速奔跑。分享我学习的方法，所学的内容和一切我的资料。 你遇到的职业问题，我也会第一时间给你解答。我需要先感谢一直帮助我的小伙伴，这个博客能产出300多集免费视频，其中有他们的鼎力支持，如果没有他们的支持和鼓励，我可能早都放弃了。 原来我博客只是录制免费视频，然后求30元的打赏。 每次打赏我都会觉得内疚，因为我并没有给你特殊的照顾，也没能从实质上帮助过你。 直到朋友给我介绍了知识星球，它可以专享加入，可以分享知识，可以解答问题，所以我如获珍宝，决定把打赏环节改为知识服务。我定价50元每年，为什么是50元每年？因为这是知识星球允许的最低收费了。'},
+const ArticleList = dynamic(import('@/components/ArticleList'))
+const LazyImg = dynamic(import('@/components/LazyImg'))
+import './style.less'
+
+const ListPage = (props) => {
+  const [listData, setListData] = useState(props.articleList)
+  const [tabKey, setTabKey] = useState(props.tabIndex)
+  const [advert, setAdvert] = useState([
+    {
+      title: '广告位',
+      link: '',
+      url: 'http://cdn.zjutshideshan.cn/advertisement.jfif'
+    }
   ])
 
+  // 页数
+	const [page, setPage] = useState(1)
+	const [loadMoreLoading, setLoadMoreLoading] = useState(false)
+	const [isNoData, setIsNoData] = useState(false)
+  const [listSort, setListSort] = useState(true)
+  
+  useEffect(() => {
+		queryLsit(props.tabIndex, 1, 5, listSort).then((res)=>{
+			setListData(res.data)
+		})
+		setTabKey(props.tabIndex)
+  }, [props.tabIndex])
+  
+  // 切换排序
+	const listSortFn = () => {
+		queryLsit(tabKey, 1, 5, !listSort).then((res)=>{			
+			setListData(res.data)
+			setLoadMoreLoading(false)
+		})
+
+		setListSort(!listSort)
+		setPage(1)
+		setLoadMoreLoading(true)
+  }
+  
+  /**
+	* 查询列表方法
+	* @description: 公用查询列表方法
+	* @param { type page limit listSort }
+	* @return: 文章列表/用户列表
+	*/
+	const queryLsit = (tabKey, page, limit, listSort) => {
+		return new Promise((resolve, reject) => {
+			request(serviceApi.getTypeList, {
+				method: 'get',
+				params: { 
+					type: tabKey === '0' ? null : tabKey,
+					page: page,
+					limit: limit,
+					sort: listSort ? 0 : 1
+				}
+			}).then((res) =>{
+				resolve(res)
+			})
+		})
+  }
+  
+  // 加载更多
+	const loadMore = () => {
+		setPage(page + 1)
+		setLoadMoreLoading(true)
+
+		queryLsit( tabKey, page + 1, 5, listSort).then((res) => {
+			if(!res.data.length){ 
+				setLoadMoreLoading(false)
+				setIsNoData(true)
+				return
+			}
+			setListData([].concat(listData, res.data))
+			setLoadMoreLoading(false)
+		})
+  }
+  
+  // 切换tab
+	const tabKeyChang = (key) => {
+		queryLsit( key, 1, 5, listSort).then((res) => {
+			setListData(res.data)
+			setLoadMoreLoading(false)
+		})
+
+		setPage(1)
+		setLoadMoreLoading(true)
+		setIsNoData(false)
+		setTabKey(key)
+		
+  }
+  
+  const operationTabList = [
+		{
+			key: '0',
+			tab: (
+				<span>
+					全部
+        </span>
+			),
+		},
+		{
+			key: '1',
+			tab: (
+				<span>
+					<Icon type="experiment" />
+					技术
+        </span>
+			),
+		},
+		{
+			key: '2',
+			tab: (
+				<span>
+					<Icon type="camera" />
+					摄影
+		  </span>
+			),
+		},
+		{
+			key: '3',
+			tab: (
+				<span>
+					<Icon type="coffee" />
+					生活
+		  </span>
+			),
+		},
+  ];
+  
   return (
-    <div className="container">
+    <>
       <Head>
-        <title>Home</title>
-      </Head>
-      <Header />
-      <Row className="comm-main" type="flex" justify="center">
-        <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14} xxl={10}>
-            <div className="bread-div">
-              <Breadcrumb>
-                <Breadcrumb.Item><a href="/">首页</a></Breadcrumb.Item>
-                <Breadcrumb.Item>视频教程</Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-            <List
-              header={<div>最新日志</div>}
-              itemLayout="vertical"
-              dataSource={myList}
-              renderItem={item=>(
-                <List.Item>
-                  <div className="list-title">{item.title}</div>
-                  <div className="list-icon">
-                    <span><CalendarOutlined/> 2020-05-20</span>
-                    <span><FolderOutlined/> 视屏教程 </span>
-                    <span><FireOutlined/> 5000 人</span>
-                  </div>
-                  <div className="list-context">{item.context}</div>
-                </List.Item>
-              )}
-            />
-        </Col>
-        <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4} xxl={3}>
-            <Author/>
-            <Advert/>
-        </Col>
+				<title>文章列表</title>
+			</Head>
+
+      <>
+      <Row>
+        {/* 列表 */}
+					<Col id='left-box' xs={24} sm={24} md={24} lg={18} xl={18} >
+						<div className={classnames('list-nav')}>
+							<Card
+								bordered={false}
+								tabList={operationTabList}
+								activeTabKey={tabKey}
+								onTabChange={tabKeyChang}
+								tabBarExtraContent={
+									<span onClick={listSortFn} className="switch-btn">
+										<Icon type="swap" style={{color: '#1890ff', marginRight: 10}} />
+										切换为
+										{
+											listSort ? '热门排序' : '时间排序'
+										}					
+									</span>
+								}
+							>
+								<ArticleList 
+									loadMore={loadMore} 
+									isNoData={isNoData}
+									loading={loadMoreLoading} 
+									data={listData} 
+								/>
+							</Card>
+						</div>
+					</Col>
+
+          <Col xs={0} sm={0} md={0} lg={6} xl={6} style={{ paddingLeft: 24 }}>
+
+						{/* 广告位 */}
+						<div className="advert-list">
+              {
+                advert && advert.length ? advert.map((item, index) => (
+                  <Card
+                    style={{ marginBottom: 24 }}
+                    bordered={false}
+                    key={index}
+                  >
+                    <p style={{ fontWeight: 'bold' }}>广告</p>
+                    <a href={item.link}>
+                      <LazyImg src={item.url} />
+                    </a>
+                  </Card>
+                )) : null
+              }
+						</div>
+					</Col>
       </Row>
-      <Footer/>
-    </div>
+      
+      </>
+    </>
   )
 }
+
+ListPage.getInitialProps = async (context) => {
+  let tabIndex = context.query.type;
+  
+  return {tabIndex}
+}
+
+export default ListPage
