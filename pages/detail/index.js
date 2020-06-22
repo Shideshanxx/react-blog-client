@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import './style.less';
 import Head from 'next/head';
-import { Row, Col, Affix, Typography, Divider, Card, Avatar, Badge, Popover } from 'antd';
-import dynamic from 'next/dynamic';
-const LazyImg = dynamic(import('@/components/LazyImg'))
-import Link from 'next/link';
-import Tocify from '@/components/Tocify/index.tsx';
-import Reward from '@/components/Reward';
-
+import { Row, Col, Affix, Typography, Divider, Card, Avatar, Badge, Popover, message } from 'antd';
 import classnames from 'classnames';
+import request from '@/public/utils/request';
+import serviceApi from '@/config/service';
+import Link from 'next/link';
+import moment from 'moment';
+import Cookies from 'js-cookie';
 import marked from 'marked';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
+import './style.less';
 import 'katex/dist/katex.min.css';
 import renderMathInElement from '@/public/utils/autorender.js';
-
-import serviceApi from '@/config/service';
-import request from '@/public/utils/request';
+import { isLogin } from '@/public/utils/utils';
+import Tocify from '@/components/Tocify/index.tsx';
+import Reward from '@/components/Reward';
+import LazyImg from '@/components/LazyImg';
+import Comment from '@/components/Comment';
 import Router from 'next/router'
-import moment from 'moment';
 moment.locale('zh-cn');
 
 const { Title } = Typography
@@ -28,7 +28,7 @@ const Detail = (props) => {
   const tocify = new Tocify();
   const renderer = new marked.Renderer();
 
-  // markdown目录
+  // 目录标题
   renderer.heading = function (text, level, raw) {
     const anchor = tocify.add(text, level);
     return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
@@ -67,6 +67,13 @@ const Detail = (props) => {
   let html = marked(markdown)
 
   useEffect(() => {
+    // 权限校验
+    if (isLogin()) {
+      // 点赞状态
+      getLikestatus(info.id)
+    }
+
+    // 公式渲染
     if (process.browser) {
       document.onload = renderMathInElement(document.body, {
         delimiters: [
@@ -75,13 +82,29 @@ const Detail = (props) => {
         ]
       })
     }
+
+    // 浏览量
+    // 1，存cookie, 过期时间30分钟。 key为 文章id 唯一
+    // 2, 检查cookie有没有 没有加一，有则不作处理
+    if (!Cookies.get(info.id)) {
+      request(serviceApi.readingVolume, {
+        method: 'get',
+        params: {
+          id: info.id
+        }
+      }).then((res) => {
+        if (res.code == 200) {
+          Cookies.set(info.id, '123', { expires: new Date(new Date().getTime() + (60 * 60 * 1000) / 2) });
+        }
+      })
+    }
   }, [])
 
   // 文章点赞
   const clickLike = () => {
     // 权限校验
     if (!isLogin()) {
-      message.warning('靓仔，请先登录哦！')
+      message.warning('请先登录哦！')
       return false
     }
     
@@ -159,11 +182,11 @@ const Detail = (props) => {
 
                 <Popover placement="right" title="分享到" content={(
                   <>
-                    <a href={`http://service.weibo.com/share/share.php?url=http://shideshan.cn${Router.router && Router.router.asPath}?sharesource=weibo&title=${info.title}&pic=${info.cover}&appkey=2706825840`} target="_blank" style={{ marginRight: 10 }}>
+                    <a href={`http://service.weibo.com/share/share.php?url=http://zjutshideshan.cn${Router.router && Router.router.asPath}?sharesource=weibo&title=${info.title}&pic=${info.cover}&appkey=647374143`} target="_blank" style={{ marginRight: 10 }}>
                       <Avatar shape="square" size={28} icon="weibo-circle" style={{ backgroundColor: '#f9752f' }} className={classnames("contact-icon")} title="分享到微博" />
                     </a>
 
-                    <a href={`http://connect.qq.com/widget/shareqq/index.html?url=http://shideshan.cn${Router.router && Router.router.asPath}&sharesource=qzone&title=${info.title}&pics=${info.cover}&summary=${info.introduce}&desc=${info.title}`} target="_blank" style={{ marginRight: 10 }}>
+                    <a href={`http://connect.qq.com/widget/shareqq/index.html?url=http://zjutshideshan.cn${Router.router && Router.router.asPath}&sharesource=qzone&title=${info.title}&pics=${info.cover}&summary=${info.introduce}&desc=${info.title}`} target="_blank" style={{ marginRight: 10 }}>
                       <Avatar shape="square" size={28} icon="qq" style={{ backgroundColor: '#25c5fd' }} className={classnames("contact-icon")} title="分享到QQ" />
                     </a>
 
@@ -188,10 +211,11 @@ const Detail = (props) => {
                 <div dangerouslySetInnerHTML={{ __html: html }} ></div>
                 <Reward userId={info && info.userId ? info.userId : null} />
               </div>
-              
+              <Comment props={{ auid: info.userId}} />
             </div>
           </Col>
 
+          {/* 广告 */}
           <Col xs={0} sm={0} md={0} lg={5} xl={5} xxl={5}>
             {
               advert && advert.length ? advert.map((item, index) => (
@@ -207,6 +231,8 @@ const Detail = (props) => {
                 </Card>
               )) : null
             }
+            
+            {/* 目录 */}
             {
               tocify && tocify.tocItems && tocify.tocItems.length
                 ?

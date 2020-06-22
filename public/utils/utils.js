@@ -1,3 +1,6 @@
+import store from '@/store'
+import CryptoJS from 'crypto-js'
+
 /** 动态加载js脚本
  * @description: 
  * @param {url} string url
@@ -36,4 +39,37 @@ export const loadScript = (url, callback) => {
             callback();
         }
     }
+}
+
+/** 
+ * 判断是否登录 
+ */
+export const isLogin = () => {
+    if (!store.getState().userInfo || !store.getState().userInfo.userId) {
+        return false
+    } else {
+        return true
+    }
+}
+
+/**
+ * 将一维的扁平数组转换为多层级对象，牛逼！
+ * @param  {[type]} treeData 一维数组，数组中每一个元素需包含id和pid两个属性 
+ * @param  {[type]} parentId 0
+ * @return {[type]} tree 多层级树状结构
+ */
+export const toTreeData = (data,pid) =>{
+    function tree(id) {
+        let arr = []
+        data.filter(item => {
+            return item.pid === id;
+        }).forEach(item => {
+            arr.push({
+                ...item,
+                children: tree(item.id)
+            })
+        })
+        return arr
+    }
+    return tree(pid)  // 第一级节点的父id，是null或者0，视情况传入
 }
