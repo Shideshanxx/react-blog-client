@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import './style.less';
 import Head from 'next/head';
 import { Row, Col, Affix, Typography, Divider, Card, Avatar, Badge, Popover } from 'antd';
 import dynamic from 'next/dynamic';
@@ -6,7 +7,6 @@ const LazyImg = dynamic(import('@/components/LazyImg'))
 import Link from 'next/link';
 import Tocify from '@/components/Tocify/index.tsx';
 import Reward from '@/components/Reward';
-
 
 import classnames from 'classnames';
 import marked from 'marked';
@@ -20,7 +20,6 @@ import request from '@/public/utils/request';
 import Router from 'next/router'
 import moment from 'moment';
 moment.locale('zh-cn');
-import './style.less';
 
 const { Title } = Typography
 

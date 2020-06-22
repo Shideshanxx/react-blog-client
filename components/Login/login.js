@@ -87,7 +87,7 @@ class Login extends React.Component {
                     {/* logo */}
                     <div className="login-logo">
                         <div className="title">
-                            <p className="b-title">ShideshanBlog</p>
+                            <p className="b-title">Sds's Blog</p>
                             <p className="s-title">冲浪记录站</p>
                         </div>
                     </div>

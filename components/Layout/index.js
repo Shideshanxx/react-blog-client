@@ -20,7 +20,7 @@ const Layout = (props) => {
 					{props.children}
 					<BottomRight />
                     {/* id 是歌单的id */}
-					<MusicPlayer id="705619441" />
+					<MusicPlayer id="41453744" />
 				</div>
 				<Footer />
 			</div>

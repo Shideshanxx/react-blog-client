@@ -78,8 +78,6 @@ const request = extend({
  * 配合redux 处理loading
  */
 const setLoading = (url, status) => {
-
-
     // 特殊处理第三方七牛云上传的的接口
     if (url === "http://upload-z2.qiniup.com" || url === "http://upload-z2.qiniup.com/") {
         store.dispatch({
@@ -92,7 +90,6 @@ const setLoading = (url, status) => {
         return
     }
 
-
     // 默认是以default开头的才算api请求
     if (url.indexOf("default") != -1) {
         let api = url.substring(url.lastIndexOf("\/") + 1, url.length)
@@ -102,7 +99,6 @@ const setLoading = (url, status) => {
         } else {
             api = api + "Loading";
         }
-
 
         store.dispatch({
             type: 'changeLoading',
@@ -142,7 +138,6 @@ if (process.browser) {
                 headers
             },
         });
-
     })
 
     // response拦截器, 处理response
@@ -171,7 +166,6 @@ if (process.browser) {
         setLoading(response.url, false)
         return response;
     })
-
 }
 
 export default request;

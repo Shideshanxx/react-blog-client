@@ -94,7 +94,8 @@ const Home = (props) => {
   return (
     <>
       <Head>
-        <title>ShideshanBlog</title>
+        <title>首页 | Younster_Shi's Blog</title>
+        <link rel="shortcut icon" href="../../public/favicon.ico"></link>
       </Head>
 
       <div className={classnames('wrap content-box')}>

@@ -144,11 +144,11 @@ function Header(props) {
     return (
 		<div className={classnames({ 'header': true, 'homeHeader': isHome, 'scrollActive': scrollActive })}>
 			<Row className={classnames('wrap header-box')} type="flex" align="middle" justify="space-between">
-				<Col className="left-logo" xs={24} sm={24} md={10} lg={10} xl={10}>
+				<Col className="left-logo" xs={0} sm={0} md={0} lg={10} xl={10}>
 					<Link href="./index">
-						<a className="logo-title">石德山</a>
+						<a className="logo-title">sds's Blog</a>
 					</Link>
-					<span className="logo-text">专注前端开发与知识分享</span>
+					<span className="logo-text">冲浪记录站</span>
 				</Col>
 
                 {/* PC端 */}
@@ -258,7 +258,7 @@ function Header(props) {
 
 				{/* 移动端 menu */}
 				<div className="xs-menu" id="xs-menu">
-                    
+
 				{
 					userInfo && userInfo.userId ?
 					<Dropdown 
