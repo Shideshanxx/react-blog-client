@@ -51,7 +51,7 @@ const Detail = (props) => {
   hljs.configure({ useBR: true });
 
   const [info, setInfo] = useState(props.articleInfo)
-  const [likeCount, setLikeCount] = useState(0)
+  const [likeCount, setLikeCount] = useState(props.articleInfo.count)
   const [likeState, setLikeState] = useState(false)
 
   // 广告
