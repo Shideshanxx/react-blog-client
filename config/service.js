@@ -38,7 +38,7 @@ let serviceApi = {
     setFollow: ipUrl + 'setFollow',            // 关注/取消关注
 
     getQiniuToken: ipUrl + 'getQiniuToken',        // 获取七牛签名
-    uploadQiniu: 'http://upload-z2.qiniup.com'   // 上传七牛
+    uploadQiniu: 'http://up-z0.qiniup.com'   // 上传七牛
 }
 
 

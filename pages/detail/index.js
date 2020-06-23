@@ -18,7 +18,7 @@ import Tocify from '@/components/Tocify/index.tsx';
 import Reward from '@/components/Reward';
 import LazyImg from '@/components/LazyImg';
 import Comment from '@/components/Comment';
-import Router from 'next/router'
+import Router from 'next/router';
 moment.locale('zh-cn');
 
 const { Title } = Typography

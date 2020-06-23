@@ -1,5 +1,22 @@
+import moment from 'moment';
 import store from '@/store'
 import CryptoJS from 'crypto-js'
+
+/** 国家公祭日置灰
+ * @description: 
+ * @param {type} 
+ * @return: 
+ */
+export const memorial = () => {
+    let now = moment().locale('zh-cn').format('MM-DD');
+    if (
+        now === '04-04' || // 清明
+        now === '05-12' || // 汶川大地震
+        now === '12-13' // 南京大屠杀
+    ) {
+        document.getElementsByTagName('html')[0].style = 'filter: grayscale(100%);'
+    }
+}
 
 /** 动态加载js脚本
  * @description: 

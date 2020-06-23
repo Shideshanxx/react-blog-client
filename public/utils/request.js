@@ -79,7 +79,7 @@ const request = extend({
  */
 const setLoading = (url, status) => {
     // 特殊处理第三方七牛云上传的的接口
-    if (url === "http://upload-z2.qiniup.com" || url === "http://upload-z2.qiniup.com/") {
+    if (url === "http://up-z0.qiniup.com" || url === "http://up-z0.qiniup.com/") {
         store.dispatch({
             type: 'changeLoading',
             payload: {
