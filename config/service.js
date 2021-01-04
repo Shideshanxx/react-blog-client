@@ -1,5 +1,5 @@
-let ipUrl = 'http://127.0.0.1:7001/default/' // 开发环境使用这个 因为就切换一下很简单，就不搞env环境变量了
-// let ipUrl = 'http://xxx.com/default/' // 生成环境用这个  或者试试别人的http://lululuting.com/default/ 
+// let ipUrl = 'http://127.0.0.1:7001/default/' // 开发环境使用这个 因为就切换一下很简单，就不搞env环境变量了
+let ipUrl = 'http://47.111.168.36:7001/default/' // 生产环境用
 
 let serviceApi = {
     getBannerList: ipUrl + 'getBannerList',        // 首页轮播图列表
