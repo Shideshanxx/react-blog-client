@@ -1,22 +1,25 @@
 {
-    "presets": ["next/babel"],
-    "plugins": [
-        // 让我们可以使用根路径，避免相对路径的混乱，如import Head from '@/components/Head'
-        [
-            "module-resolver",
-            {
-                "alias": {
-                    "@": "./"
-                }
-            }
-        ],
-        //增加新的插件，这个插件就是让antd可以按需引入，包括CSS
-        [
-            "import",
-            {
-                "libraryName":"antd"
-                // "style": true  // 打包出错注销掉，在_app.js里面一次性引入所有antd的css
-            }
-        ]
-    ]
+  "presets": ["next/babel"],
+  "plugins": [
+    // 可以使用装饰器decorator
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    // 让我们可以使用根路径，避免相对路径的混乱，如import Head from '@/components/Head'
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@": "./"
+        }
+      }
+    ],
+    //增加新的插件，这个插件就是让antd可以按需引入，包括CSS
+    [
+      "import",
+      {
+        "libraryName": "antd"
+        // "style": true  // 打包出错注销掉
+      }
+    ],
+    ["jsx-control-statements"]
+  ]
 }

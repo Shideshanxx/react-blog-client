@@ -6,11 +6,12 @@ WORKDIR /egg
 # 将 package.json复制到默认工作目录
 COPY package.json /egg/package.json
 # 设置yarn源，安装生产环境依赖
-RUN yarn config set registry https://registry.npm.taobao.org
-RUN yarn --production
+RUN yarn config set registry https://registry.npm.taobao.org \
+  && yarn install
 # 再copy代码到容器中/egg目录下（./ 表示所有文件 ）
 COPY ./ /egg
 # 暴露3000端口
 EXPOSE 3000
 
-CMD yarn start
+CMD yarn build \
+  && yarn start
